@@ -1,0 +1,977 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+/* ==========================================================================
+   0. PALETTE VARIABLES (MODE TERANG — WHITE GOLD, diredupkan sedikit)
+   ========================================================================== */
+:root {
+    --c-black: #ddc79a !important;
+    --c-panel: rgba(255, 255, 255, 0.60) !important;
+    --c-panel-2: rgba(150, 112, 40, 0.14) !important;
+    --c-grey: #a88a55 !important;
+    --c-grey-line: rgba(150, 112, 40, 0.32) !important;
+    --c-text: #1a150d !important;
+    --c-muted: #7a5c28 !important;
+    --c-muted-2: rgba(26, 21, 13, 0.60) !important;
+    --c-gold: #9c6f0b !important;
+    --c-gold-deep: #7a5c28 !important;
+    --c-gold-soft: rgba(150, 112, 40, 0.20) !important;
+}
+
+/* ==========================================================================
+   1. GLOBAL REBRANDING & FORCE OVERRIDE
+   ========================================================================== */
+.fi-layout {
+    background-color: #ddc79a !important;
+    background-image:
+        radial-gradient(700px 420px at 8% -8%, rgba(150, 112, 40, 0.22), transparent 60%),
+        radial-gradient(600px 400px at 95% 10%, rgba(150, 112, 40, 0.20), transparent 55%),
+        radial-gradient(800px 500px at 50% 110%, rgba(110, 82, 33, 0.16), transparent 60%) !important;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+}
+
+/* Pola Garis Dekoratif Latar Belakang */
+body.fi-body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(150, 112, 40, 0.06) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(150, 112, 40, 0.06) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Memaksa komponen widget/card bawaan agar bermutasi ke Glassmorphic Gold */
+.fi-wi-stats-overview-stat, 
+.fi-wi-chart, 
+.fi-ta-ctn, 
+.fi-section,
+div[class*="bg-white"],
+div[class*="bg-gray-900"] {
+    background-color: rgba(255, 255, 255, 0.60) !important;
+    backdrop-filter: blur(25px) saturate(170%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(170%) !important;
+    border: 1px solid rgba(150, 112, 40, 0.32) !important;
+}
+
+.fi-main, .fi-main *:not(svg):not(path) {
+    color: var(--c-text);
+}
+.fi-main .text-gray-500,
+.fi-main .text-gray-400,
+.fi-main .fi-section-header-heading,
+.fi-main .fi-header-heading,
+.fi-main .fi-header-subheading {
+    color: var(--c-muted) !important;
+}
+.fi-header-heading {
+    color: var(--c-text) !important;
+    font-weight: 700 !important;
+}
+
+/* Topbar Glassmorphism */
+.fi-topbar, .fi-topbar nav {
+    background-color: var(--c-panel) !important;
+    backdrop-filter: blur(18px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
+    border-bottom: 1px solid var(--c-grey-line) !important;
+}
+.fi-topbar * {
+    color: var(--c-text) !important;
+}
+
+/* Sidebar Labels & Active State */
+.fi-sidebar-group-label,
+.fi-sidebar-item-label {
+    color: var(--c-muted) !important;
+}
+.fi-sidebar-item-active .fi-sidebar-item-label {
+    color: var(--c-gold) !important;
+    font-weight: 700 !important;
+}
+.fi-sidebar-item-icon {
+    color: var(--c-muted-2) !important;
+}
+
+.fi-wi-stats-overview, .fi-section, .fi-wi-chart {
+    color: var(--c-text) !important;
+}
+.fi-section-header-heading {
+    color: var(--c-text) !important;
+}
+
+/* Accent Decoration */
+.fi-main > .fi-section:first-of-type,
+.fi-page > div > .fi-section {
+    border-top: 2px solid var(--c-gold) !important;
+}
+.fi-avatar {
+    box-shadow: 0 0 0 2px var(--c-gold-soft), 0 0 18px -4px rgba(150, 112, 40, 0.5) !important;
+}
+.fi-wi-stats-overview-stat-icon {
+    background: var(--c-gold-soft) !important;
+    border-radius: 10px !important;
+}
+
+/* ==========================================================================
+   4. SIDEBAR — Glassmorphism + Motion
+   ========================================================================== */
+.fi-sidebar {
+    background-color: var(--c-panel) !important;
+    backdrop-filter: blur(22px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(140%) !important;
+    border-right: 1px solid var(--c-grey-line) !important;
+}
+
+.fi-sidebar-item-button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-radius: 12px !important;
+    margin: 2px 8px !important;
+    position: relative;
+}
+
+.fi-sidebar-item-button:hover {
+    transform: translateX(6px) !important;
+    background-color: var(--c-panel-2) !important;
+}
+
+.fi-sidebar-item-button::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 20%; height: 60%; width: 3px;
+    background-color: var(--c-gold);
+    border-radius: 0 4px 4px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fi-sidebar-item-button:hover::before { opacity: 1; }
+
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    background: linear-gradient(90deg, var(--c-gold-soft), transparent) !important;
+    box-shadow: 0 0 0 1px rgba(150, 112, 40, 0.22) inset;
+}
+.fi-sidebar-item-active .fi-sidebar-item-button::before { opacity: 1; }
+.fi-sidebar-item-active .fi-sidebar-item-icon { color: var(--c-gold) !important; }
+
+/* ===== TEKS/LOGO "SI-ASET UNIMAL" DIATUR DI SINI (warna & ukuran saja,
+   teksnya sendiri di-set di AdminPanelProvider.php / file blade brand) ===== */
+.fi-sidebar-header .fi-logo {
+    transform: scale(1.0) !important;
+    max-height: 2.5rem !important;
+    margin-right: 0.5rem !important;
+    color: var(--c-gold-deep) !important;
+    font-weight: 800 !important;
+}
+
+/* ==========================================================================
+   5. STAT CARDS & CHART — Glassmorphism + Lift Up (Floating Effect)
+   ========================================================================== */
+.fi-wi-stats-overview-stat, .fi-wi-chart, .fi-ta-ctn, .fi-section {
+    background-color: var(--c-panel) !important;
+    backdrop-filter: blur(18px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
+    border: 1px solid var(--c-grey-line) !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border-radius: 16px !important;
+    overflow: visible !important;
+}
+
+/* Pastikan list dropdown-nya sendiri bisa di-scroll kalau opsinya banyak */
+.choices__list--dropdown {
+    max-height: 220px !important;
+    overflow-y: auto !important;
+}
+
+.fi-wi-stats-overview-stat {
+    padding: 1.25rem 1.5rem !important;
+}
+.fi-section > .fi-section-content-ctn,
+.fi-section .fi-section-content {
+    padding: 1.25rem 1.5rem !important;
+}
+.fi-section-header {
+    padding: 1.1rem 1.5rem !important;
+    border-bottom: 1px solid var(--c-grey-line) !important;
+}
+
+.fi-wi-stats-overview-stat { border-top: 2px solid var(--c-grey) !important; animation: fadeUp .55s ease both; }
+.fi-wi-stats-overview-stat:hover, .fi-wi-chart:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 20px 40px rgba(122, 92, 40, 0.18), 0 0 20px rgba(150, 112, 40, 0.14) !important;
+    border-top-color: var(--c-gold) !important;
+}
+
+.fi-wi-stats-overview-stat-value {
+    background: linear-gradient(135deg, var(--c-gold), var(--c-gold-deep));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.fi-wi-stats-overview-stat:nth-child(1) { animation-delay: .05s; }
+.fi-wi-stats-overview-stat:nth-child(2) { animation-delay: .12s; }
+.fi-wi-stats-overview-stat:nth-child(3) { animation-delay: .19s; }
+
+.fi-wi-chart canvas,
+.fi-wi-chart .fi-wi-chart-ctn,
+.fi-wi-chart [wire\:ignore] {
+    max-height: 280px !important;
+}
+.fi-wi-chart .fi-section-content {
+    padding-top: 0.5rem !important;
+}
+
+.fi-ta-empty-state {
+    padding: 2rem 1.5rem !important;
+}
+.fi-ta-empty-state-icon {
+    background: var(--c-panel-2) !important;
+}
+
+/* ==========================================================================
+   6. TABEL & BUTTON CONTROLS
+   ========================================================================== */
+.fi-ta-row { transition: background-color 0.2s ease !important; }
+.fi-ta-row:hover { background-color: var(--c-panel-2) !important; }
+.fi-ta-header-search-input-ctn input {
+    border-radius: 9999px !important;
+    background-color: var(--c-panel) !important;
+    border-color: var(--c-grey-line) !important;
+}
+.fi-badge-color-success {
+    background-color: var(--c-gold-soft) !important;
+    color: var(--c-gold) !important;
+    border: 1px solid rgba(150, 112, 40, 0.45) !important;
+}
+.fi-badge-color-warning svg { animation: spinIcon 2.5s linear infinite !important; }
+
+.fi-btn-color-primary * {
+    color: #2a2110 !important;
+}
+.fi-btn-color-primary svg.animate-spin {
+    color: #2a2110 !important;
+}
+.fi-btn-color-primary {
+    background: linear-gradient(135deg, var(--c-gold), var(--c-gold-deep)) !important;
+    box-shadow: 0 8px 20px rgba(150, 112, 40, 0.32) !important;
+}
+
+::-webkit-scrollbar {
+    width: 8px; height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--c-black);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(150, 112, 40, 0.35);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(150, 112, 40, 0.65);
+}
+
+/* ==========================================================================
+   7. SUSUNAN FINAL DASHBOARD PREMIUM
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .fi-page .fi-widgets,
+    .fi-main .fi-widgets,
+    .fi-widgets-container {
+        display: grid !important;
+        grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+        gap: 1.5rem !important;
+        width: 100% !important;
+        align-items: start !important;
+    }
+
+    .fi-widgets > .fi-wi-account-widget {
+        grid-column: 1 / -1 !important;
+        order: 1 !important;
+    }
+
+    .fi-widgets > .fi-wi-stats-overview {
+        grid-column: 1 / -1 !important;
+        order: 2 !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 1.25rem !important;
+    }
+
+    .fi-widgets > div:has(.fi-ta-ctn) {
+        grid-column: span 7 / span 7 !important;
+        order: 3 !important;
+    }
+
+    .fi-widgets > .fi-wi-chart {
+        grid-column: span 5 / span 5 !important;
+        order: 4 !important;
+    }
+
+    .fi-widgets > div:not(.fi-wi-account-widget):not(.fi-wi-stats-overview):not(.fi-wi-chart):not(:has(.fi-ta-ctn)) {
+        grid-column: 1 / -1 !important;
+        order: 5 !important;
+    }
+}
+
+@media (max-width: 1023px) {
+    .fi-page .fi-widgets,
+    .fi-main .fi-widgets,
+    .fi-widgets-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.25rem !important;
+    }
+    .fi-widgets > .fi-wi-account-widget { order: 1 !important; }
+    .fi-widgets > .fi-wi-stats-overview { order: 2 !important; }
+    .fi-widgets > div:has(.fi-ta-ctn) { order: 3 !important; }
+    .fi-widgets > .fi-wi-chart { order: 4 !important; }
+}
+
+/* ==========================================================================
+   8. KEYFRAMES ANIMASI
+   ========================================================================== */
+@keyframes gradientMove {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes gridRotate {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes logoPulse {
+    0%   { filter: drop-shadow(0 0 8px rgba(150, 112, 40, 0.28)); }
+    100% { filter: drop-shadow(0 0 22px rgba(150, 112, 40, 0.6)); }
+}
+@keyframes spinIcon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   1) PROGRESS BAR di atas layar (mirip YouTube/GitHub)
+   ============================================================ */
+#fi-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #9c6f0b, #d8b467, #9c6f0b);
+    background-size: 200% 100%;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(150, 112, 40, 0.5);
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease 0.15s;
+    animation: fi-shimmer 1.1s linear infinite;
+}
+
+@keyframes fi-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ============================================================
+   2) "WIPE REVEAL" — tirai terbuka dari kiri ke kanan + blur halus
+      Ditrigger ulang oleh nav-animation.js lewat class .js-page-anim
+   ============================================================ */
+.fi-main.js-page-anim {
+    animation: fi-wipe-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fi-wipe-in {
+    0% {
+        clip-path: inset(0 100% 0 0);
+        opacity: 0.4;
+        filter: blur(6px);
+        transform: scale(0.99);
+    }
+    60% {
+        filter: blur(1px);
+    }
+    100% {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-main.js-page-anim,
+    #fi-progress-bar {
+        animation: none;
+    }
+}
+
+/* ============================================================
+   3) Konten di dalam halaman (card, section, tabel, widget)
+      muncul bertahap naik dari bawah.
+   ============================================================ */
+.fi-main > * {
+    animation: fi-rise-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.fi-main > *:nth-child(1) { animation-delay: 0.08s; }
+.fi-main > *:nth-child(2) { animation-delay: 0.14s; }
+.fi-main > *:nth-child(3) { animation-delay: 0.20s; }
+.fi-main > *:nth-child(4) { animation-delay: 0.26s; }
+.fi-main > *:nth-child(5) { animation-delay: 0.32s; }
+
+@keyframes fi-rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   BONUS — sidebar tetap dengan efek stagger + hover geser
+   ============================================================ */
+.fi-sidebar-nav .fi-sidebar-item {
+    animation: fi-item-in 0.35s ease-out both;
+}
+
+.fi-sidebar-nav .fi-sidebar-item:nth-child(1) { animation-delay: 0.03s; }
+.fi-sidebar-nav .fi-sidebar-item:nth-child(2) { animation-delay: 0.06s; }
+.fi-sidebar-nav .fi-sidebar-item:nth-child(3) { animation-delay: 0.09s; }
+.fi-sidebar-nav .fi-sidebar-item:nth-child(4) { animation-delay: 0.12s; }
+.fi-sidebar-nav .fi-sidebar-item:nth-child(5) { animation-delay: 0.15s; }
+.fi-sidebar-nav .fi-sidebar-item:nth-child(6) { animation-delay: 0.18s; }
+
+@keyframes fi-item-in {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+.fi-sidebar-item-button {
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+
+.fi-sidebar-item-button:hover {
+    transform: translateX(4px);
+}
+
+/* ============================================================
+   MOBILE UX — kasih bayangan halus di kanan tabel kalau ada
+   konten yang perlu di-scroll horizontal.
+   ============================================================ */
+.fi-ta-content {
+    position: relative;
+}
+
+.fi-ta-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 24px;
+    pointer-events: none;
+    background: linear-gradient(to right, transparent, rgba(26, 21, 13, 0.10));
+}
+
+@media (min-width: 1024px) {
+    .fi-ta-content::after {
+        display: none;
+    }
+}
+
+/* ============================================================
+   GLOBAL SEARCH — samain warnanya sama tema gold-light aplikasi
+   ============================================================ */
+.fi-topbar input[type="search"],
+.fi-topbar .fi-input-wrapper input,
+.fi-global-search-field input {
+    background-color: rgba(255, 255, 255, 0.55) !important;
+    border: 1px solid var(--c-grey-line) !important;
+    color: #1a150d !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fi-topbar input[type="search"]:focus,
+.fi-topbar .fi-input-wrapper input:focus,
+.fi-global-search-field input:focus {
+    border-color: var(--c-gold, #9c6f0b) !important;
+    box-shadow: 0 0 0 2px rgba(150, 112, 40, 0.22) !important;
+}
+
+.fi-topbar .fi-input-wrapper,
+.fi-global-search-field {
+    background-color: transparent !important;
+    border-radius: 0.5rem;
+}
+
+.fi-topbar .fi-input-wrapper svg,
+.fi-global-search-field svg {
+    color: var(--c-gold, #9c6f0b) !important;
+}
+
+/* Panel hasil pencarian (dropdown yang muncul di bawah kotak) */
+.fi-global-search-results,
+.fi-dropdown-panel {
+    background-color: #f2e6c9 !important;
+    border: 1px solid var(--c-gold, #9c6f0b) !important;
+    color: #1a150d !important;
+}
+
+.fi-global-search-results a:hover,
+.fi-dropdown-panel a:hover {
+    background-color: rgba(150, 112, 40, 0.14) !important;
+}
+
+/* ============================================================
+   SKELETON LOADING — muncul di atas konten lama selagi halaman
+   baru masih dimuat, ditrigger oleh nav-animation.js.
+   ============================================================ */
+.fi-skeleton-wrap {
+    position: fixed;
+    z-index: 30;
+    padding: 1.75rem;
+    background: rgba(221, 199, 154, 0.94);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    overflow: hidden;
+}
+
+.fi-skeleton-wrap.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.fi-skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(150, 112, 40, 0.12) 25%,
+        rgba(150, 112, 40, 0.28) 37%,
+        rgba(150, 112, 40, 0.12) 63%
+    );
+    background-size: 400% 100%;
+    animation: fi-skeleton-shimmer 1.4s ease infinite;
+    border-radius: 10px;
+}
+
+@keyframes fi-skeleton-shimmer {
+    0%   { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.fi-skel-title {
+    height: 26px;
+    width: 220px;
+    margin-bottom: 22px;
+}
+
+.fi-skel-cards {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 26px;
+}
+
+.fi-skel-card {
+    height: 88px;
+    flex: 1;
+}
+
+.fi-skel-row {
+    height: 42px;
+    margin-bottom: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-skeleton {
+        animation: none;
+    }
+}
+
+/* ============================================================
+   1) TOAST NOTIFICATION — gold-light theme + slide-in halus
+   ============================================================ */
+.fi-no-notification {
+    background-color: #f2e6c9 !important;
+    border: 1px solid rgba(150, 112, 40, 0.4) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(122, 92, 40, 0.22), 0 0 0 1px rgba(150, 112, 40, 0.1) !important;
+    animation: fi-toast-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fi-toast-in {
+    from {
+        opacity: 0;
+        transform: translateX(40px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.fi-no-notification .fi-no-notification-title {
+    color: #1a150d !important;
+    font-weight: 600 !important;
+}
+
+.fi-no-notification .fi-no-notification-description {
+    color: rgba(26, 21, 13, 0.68) !important;
+}
+
+.fi-no-notification[data-notification-status="success"] {
+    border-left: 3px solid #10b981 !important;
+}
+
+.fi-no-notification[data-notification-status="danger"] {
+    border-left: 3px solid #ef4444 !important;
+}
+
+.fi-no-notification[data-notification-status="warning"] {
+    border-left: 3px solid #f59e0b !important;
+}
+
+.fi-no-notification[data-notification-status="info"] {
+    border-left: 3px solid #9c6f0b !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-no-notification {
+        animation: none;
+    }
+}
+
+/* ============================================================
+   2) BACKGROUND PATTERN — dot grid sangat halus di area kosong
+   ============================================================ */
+.fi-main {
+    background-image: radial-gradient(rgba(150, 112, 40, 0.10) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+
+/* ============================================================
+   3) CUSTOM SCROLLBAR — tipis, warna gold, senada tema
+   ============================================================ */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(150, 112, 40, 0.5) transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(150, 112, 40, 0.5);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(150, 112, 40, 0.8);
+}
+
+.choices.is-open {
+    position: relative;
+    z-index: 100 !important;
+}
+
+.fi-fo-select-listbox,
+.fi-dropdown-panel,
+[role="listbox"],
+.choices__list--dropdown {
+    z-index: 9999 !important;
+}
+
+.fi-fo-field-wrp:has(.choices.is-open),
+.fi-fo-component-ctn:has(.choices.is-open),
+.grid > div:has(.choices.is-open) {
+    position: relative;
+    z-index: 100 !important;
+}
+
+/* ==========================================================================
+   HALAMAN LOGIN — TIDAK DIUBAH
+   ========================================================================== */
+
+/* ============================================================
+   1) LATAR BELAKANG — wash emas tipis lebih terasa di seluruh
+      halaman, bukan cuma di pojok-pojok.
+   ============================================================ */
+.fi-layout {
+    background-color: #ddc79a !important;
+    background-image:
+        linear-gradient(160deg, rgba(150, 112, 40, 0.18) 0%, transparent 40%),
+        radial-gradient(900px 550px at 8% -10%, rgba(150, 112, 40, 0.26), transparent 60%),
+        radial-gradient(700px 480px at 100% 5%, rgba(150, 112, 40, 0.22), transparent 55%),
+        radial-gradient(900px 600px at 50% 115%, rgba(110, 82, 33, 0.18), transparent 60%) !important;
+}
+
+.fi-main {
+    background-image: radial-gradient(rgba(150, 112, 40, 0.16) 1px, transparent 1px) !important;
+    background-size: 26px 26px !important;
+}
+
+/* ============================================================
+   2) SIDEBAR — icon lebih terlihat, item non-aktif tidak flat
+   ============================================================ */
+.fi-sidebar-item-icon,
+.fi-sidebar-item-icon svg {
+    color: #7a5c28 !important;
+    opacity: 1 !important;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.fi-sidebar-item-button:hover .fi-sidebar-item-icon,
+.fi-sidebar-item-button:hover .fi-sidebar-item-icon svg {
+    color: var(--c-gold) !important;
+    transform: scale(1.08);
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-icon,
+.fi-sidebar-item-active .fi-sidebar-item-icon svg {
+    color: var(--c-gold) !important;
+}
+
+.fi-sidebar-item-button {
+    background-color: rgba(150, 112, 40, 0.045) !important;
+    border: 1px solid transparent !important;
+}
+.fi-sidebar-item-button:hover {
+    border-color: rgba(150, 112, 40, 0.2) !important;
+}
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    border-color: rgba(150, 112, 40, 0.35) !important;
+}
+
+/* ============================================================
+   3) STAT CARD — chip icon jadi terlihat jelas
+   ============================================================ */
+.fi-wi-stats-overview-stat-icon {
+    background: rgba(150, 112, 40, 0.18) !important;
+    border: 1px solid rgba(150, 112, 40, 0.35) !important;
+}
+.fi-wi-stats-overview-stat-icon svg {
+    color: var(--c-gold-deep) !important;
+}
+
+/* ============================================================
+   4) TOPBAR SEARCH — glow lebih hidup saat fokus
+   ============================================================ */
+.fi-topbar .fi-input-wrp,
+.fi-global-search-field .fi-input-wrp {
+    background-color: rgba(255, 255, 255, 0.55) !important;
+    border: 1px solid var(--c-grey-line) !important;
+    border-radius: 9999px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.fi-topbar .fi-input-wrp:focus-within,
+.fi-global-search-field .fi-input-wrp:focus-within {
+    border-color: var(--c-gold) !important;
+    box-shadow: 0 0 0 3px rgba(150, 112, 40, 0.2) !important;
+}
+
+/* ============================================================
+   5) EMPTY STATE — icon lingkaran gold-soft, lebih "berisi"
+   ============================================================ */
+.fi-ta-empty-state-icon,
+.fi-section .fi-icon-btn:disabled,
+[class*="empty-state"] [class*="icon"] {
+    background: rgba(150, 112, 40, 0.16) !important;
+}
+.fi-ta-empty-state-icon svg {
+    color: var(--c-gold-deep) !important;
+    width: 2rem !important;
+    height: 2rem !important;
+}
+.fi-ta-empty-state-heading {
+    color: var(--c-text) !important;
+    font-weight: 700 !important;
+}
+
+/* ============================================================
+   6) JUDUL SECTION / WIDGET CUSTOM — pemisah halus dari isi
+   ============================================================ */
+.fi-section-header,
+.fi-wi-chart .fi-section-header {
+    border-bottom: 1px solid var(--c-grey-line) !important;
+}
+
+/* ============================================================
+   7) MICRO-INTERACTION TAMBAHAN — pastikan hover kerasa
+   ============================================================ */
+.fi-wi-stats-overview-stat,
+.fi-wi-chart,
+.fi-section {
+    will-change: transform;
+}
+.fi-wi-stats-overview-stat:hover {
+    border-top-color: var(--c-gold) !important;
+}
+
+.fi-btn:not(.fi-btn-color-primary):hover {
+    background-color: rgba(150, 112, 40, 0.1) !important;
+    border-color: rgba(150, 112, 40, 0.4) !important;
+}
+
+/* ==========================================================================
+   TAMBAHAN LAGI
+   ========================================================================== */
+
+.fi-badge-color-warning {
+    border: 1px solid rgba(245, 158, 11, 0.35) !important;
+    border-radius: 8px !important;
+}
+.fi-badge-color-danger {
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    border-radius: 8px !important;
+}
+.fi-badge-color-success {
+    border-radius: 8px !important;
+}
+
+.fi-badge-color-gray {
+    background-color: var(--c-gold-soft) !important;
+    color: var(--c-gold-deep) !important;
+    border: 1px solid rgba(150, 112, 40, 0.35) !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+}
+
+.fi-ta-header-search-input-ctn .fi-input-wrp,
+.fi-ta-header-search-input-ctn input {
+    background-color: rgba(255, 255, 255, 0.55) !important;
+    border: 1px solid var(--c-grey-line) !important;
+    border-radius: 9999px !important;
+    color: var(--c-text) !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.fi-ta-header-search-input-ctn .fi-input-wrp:focus-within,
+.fi-ta-header-search-input-ctn input:focus {
+    border-color: var(--c-gold) !important;
+    box-shadow: 0 0 0 3px rgba(150, 112, 40, 0.2) !important;
+}
+.fi-ta-header-search-input-ctn svg {
+    color: var(--c-gold-deep) !important;
+}
+
+.fi-main form input[type="date"] {
+    background-color: rgba(255, 255, 255, 0.55) !important;
+    border: 1px solid var(--c-grey-line) !important;
+    color: var(--c-text) !important;
+    border-radius: 10px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.fi-main form input[type="date"]:focus {
+    border-color: var(--c-gold) !important;
+    box-shadow: 0 0 0 3px rgba(150, 112, 40, 0.2) !important;
+    outline: none !important;
+}
+.fi-main form input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: sepia(60%) saturate(300%) hue-rotate(-10deg) opacity(0.8);
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   ANIMASI KILAU EMAS
+   ========================================================================== */
+
+.fi-wi-stats-overview-stat-value {
+    position: relative;
+    display: inline-block;
+    background-size: 200% auto !important;
+    background-image: linear-gradient(
+        100deg,
+        var(--c-gold) 40%,
+        #e8d29a 50%,
+        var(--c-gold) 60%
+    ) !important;
+    animation: fi-value-shine 4s linear infinite;
+}
+@keyframes fi-value-shine {
+    0%   { background-position: 200% center; }
+    100% { background-position: -200% center; }
+}
+
+.fi-wi-account-widget,
+.fi-section:has(.fi-btn[type="submit"]) {
+    position: relative;
+    overflow: hidden;
+}
+.fi-wi-account-widget::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--c-gold),
+        #e8d29a,
+        var(--c-gold),
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: fi-bar-slide 3.5s linear infinite;
+}
+@keyframes fi-bar-slide {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-icon svg {
+    animation: fi-icon-glow 2.2s ease-in-out infinite;
+}
+@keyframes fi-icon-glow {
+    0%, 100% { filter: drop-shadow(0 0 0px rgba(150, 112, 40, 0)); }
+    50%      { filter: drop-shadow(0 0 6px rgba(150, 112, 40, 0.7)); }
+}
+
+.fi-btn-color-primary {
+    position: relative;
+    overflow: hidden;
+}
+.fi-btn-color-primary::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.55),
+        transparent
+    );
+    transform: skewX(-20deg);
+    animation: fi-btn-autoshine 2.8s ease-in-out 0.6s infinite;
+}
+@keyframes fi-btn-autoshine {
+    0%   { left: -60%; }
+    35%  { left: 130%; }
+    100% { left: 130%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-wi-stats-overview-stat-value,
+    .fi-wi-account-widget::before,
+    .fi-sidebar-item-active .fi-sidebar-item-icon svg,
+    .fi-btn-color-primary::before {
+        animation: none !important;
+    }
+}
